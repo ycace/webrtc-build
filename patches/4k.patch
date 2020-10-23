@@ -1,8 +1,22 @@
+diff --git a/src/media/engine/simulcast.cc b/src/media/engine/simulcast.cc
+index 6d64bfa7b8..e86f47c482 100644
+--- a/src/media/engine/simulcast.cc
++++ b/src/media/engine/simulcast.cc
+@@ -78,6 +78,9 @@ struct SimulcastFormat {
+ // simulcast layers at what bitrates (maximum, target, and minimum).
+ // Important!! Keep this table from high resolution to low resolution.
+ constexpr const SimulcastFormat kSimulcastFormats[] = {
++    {3840, 2160, 3, webrtc::DataRate::KilobitsPerSec(15000),
++     webrtc::DataRate::KilobitsPerSec(10000),
++     webrtc::DataRate::KilobitsPerSec(5000)},
+     {1920, 1080, 3, webrtc::DataRate::KilobitsPerSec(5000),
+      webrtc::DataRate::KilobitsPerSec(4000),
+      webrtc::DataRate::KilobitsPerSec(800)},
 diff --git a/src/media/engine/webrtc_video_engine.cc b/src/media/engine/webrtc_video_engine.cc
-index 4219c43..b7b4ffa 100644
+index e56905f0c6..4e400da9aa 100644
 --- a/src/media/engine/webrtc_video_engine.cc
 +++ b/src/media/engine/webrtc_video_engine.cc
-@@ -244,8 +244,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
+@@ -273,8 +273,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
      max_bitrate = 1700;
    } else if (width * height <= 960 * 540) {
      max_bitrate = 2000;
@@ -15,10 +29,10 @@ index 4219c43..b7b4ffa 100644
    if (is_screenshare)
      max_bitrate = std::max(max_bitrate, 1200);
 diff --git a/src/modules/video_capture/linux/device_info_linux.cc b/src/modules/video_capture/linux/device_info_linux.cc
-index 39f72b0..3cb1226 100644
+index 3c8fdd20fa..57c4f3b35b 100644
 --- a/src/modules/video_capture/linux/device_info_linux.cc
 +++ b/src/modules/video_capture/linux/device_info_linux.cc
-@@ -224,11 +224,11 @@ int32_t DeviceInfoLinux::FillCapabilities(int fd) {
+@@ -244,11 +244,11 @@ int32_t DeviceInfoLinux::FillCapabilities(int fd) {
    unsigned int videoFormats[] = {V4L2_PIX_FMT_MJPEG, V4L2_PIX_FMT_YUV420,
                                   V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_UYVY};
  
