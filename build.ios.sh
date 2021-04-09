@@ -68,6 +68,16 @@ pushd $SOURCE_DIR/webrtc/src
     "webrtc_revision": "$_revision"
 }
 EOF
+
+    # WebRTC.xcframework
+    XCFRAMEWORK_OPTS=""
+    for arch in $TARGET_ARCHS; do
+      XCFRAMEWORK_OPTS+=" -framework $BUILD_DIR/webrtc/$build_config/${arch}_libs/WebRTC.framework"
+    done
+
+    XCFRAMEWORK=$BUILD_DIR/webrtc/$build_config/WebRTC.xcframework
+    rm -rf $XCFRAMEWORK
+    xcodebuild -create-xcframework $XCFRAMEWORK_OPTS -output $XCFRAMEWORK
   done
 
 popd

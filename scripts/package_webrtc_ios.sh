@@ -19,6 +19,9 @@ mkdir -p $BUILD_DIR/package/webrtc/debug/lib
 mkdir -p $BUILD_DIR/package/webrtc/release/lib
 mkdir -p $BUILD_DIR/package/webrtc/include
 
+rm -rf $BUILD_DIR/package/webrtc-swiftpm
+mkdir -p $BUILD_DIR/package/webrtc-swiftpm
+
 # webrtc のヘッダ類
 rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $SOURCE_DIR/webrtc/src/. $BUILD_DIR/package/webrtc/include/.
 
@@ -80,4 +83,11 @@ popd
 mkdir -p $PACKAGE_DIR
 pushd $BUILD_DIR/package
   tar czf $PACKAGE_DIR/webrtc.tar.gz webrtc
+popd
+
+# WebRTC.xcframework
+cp -r $BUILD_DIR/webrtc/release/WebRTC.xcframework "$BUILD_DIR/package/webrtc-swiftpm/WebRTC.xcframework"
+
+pushd $BUILD_DIR/package
+  zip -r $PACKAGE_DIR/webrtc.ios.swiftpm.zip webrtc-swiftpm
 popd
