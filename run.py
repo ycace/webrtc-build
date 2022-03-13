@@ -210,7 +210,6 @@ PATCHES = {
         'macos_h264_encoder.patch',
         'macos_screen_capture.patch',
         'macos_simulcast.patch',
-        'ios_manual_audio_input.patch',
         'ios_simulcast.patch',
         'ssl_verify_callback_with_native_handle.patch',
         'ios_bitcode.patch',
